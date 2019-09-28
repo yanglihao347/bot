@@ -31,19 +31,35 @@ client.on('loggedOn', () => {
     // client.gamesPlayed(["Custom Game", 440]);
 });
 
+const playDota2 = (steamID) => {
+    client.chatMessage(steamID, "已开始运行dota2");
+    client.gamesPlayed(["Dota 2", 570]);
+}
+
+const checkCSGOInventory = (steamID) => {
+    manager.getInventoryContents(730, 2, true, (err, inventory, currency) => {
+        if(err) {
+            console.log(err);
+            return err;
+        }
+        client.chatMessage(steamID, `csgo库存为${inventory.length}`);
+        console.log('inventory监听到了。', inventory.length);
+    })
+}
+
 //监听好友发来消息的事件
 client.on("friendMessage", (steamID, message) => {
     console.log('friendMessage事件监听到了。')
-    if (message === "hi") {
-        client.chatMessage(steamID, "你好，已经生效了");
-        client.gamesPlayed(["Dota 2", 570]);
-    }
-    if(message === "a") {
-        console.log('a监听到了。')
-        manager.getInventoryContents(730, 2, true, (err, inventory, currency) => {
-            console.log('inventory监听到了。')
-            console.log(err, inventory, currency);
-        })
+    switch(message){
+        case 'hi':
+            playDota2(steamID);
+            break;
+        case 'a':
+            checkCSGOInventory(steamID);
+            break;
+        default:
+            console.log('未能识别指令。')
+            
     }
 })
 
@@ -75,7 +91,6 @@ function declineOffer(offer) {
 }
 
 function processOffer(offer) {
-    console.log('进入处理报价函数。');
     if (offer.isGlitched() || offer.state === 11) {
         console.log('报价有些小问题，拒绝中。');
         declineOffer(offer);
@@ -137,3 +152,65 @@ manager.on('unknownOfferSent', (offer) => {
     //     declineOffer(offer);
     // }
 });
+
+const item = {
+    appid: 730,
+    contextid: '2',
+    assetid: '16774932678',
+    classid: '3526743264',
+    instanceid: '143865972',
+    amount: 1,
+    pos: 95,
+    id: '16774932678',
+    background_color: '',
+    icon_url:
+     '-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsQEl9Jg9SpIW1KgRr7PHNYzFL4o7mxdm0lPj6J77fkm5D-4so3bjDpN-k3w2yrkI6ZTyndo7Eewc3NV6Drlbsxuy9hpa6vsmfyycypGB8suuDYvF_',        
+    icon_url_large:
+     '-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsQEl9Jg9SpIW1KgRr7PHNYzFL4o7mxdm0lPj6J77fkm5D-_p9i_vG8MKs3wW2-kBtZGClcYfDdFNqM1CB81C3lei80ZHuu5-bynJluHR05yqMgVXp1v9P5g4k',   
+    descriptions:
+     [ [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object],
+       [Object] ],
+    tradable: true,
+    name: 'Berlin 2019 Minor Challengers (Holo/Foil)',
+    name_color: 'D2D2D2',
+    type: 'Base Grade Container',
+    market_name: 'Berlin 2019 Minor Challengers (Holo/Foil)',
+    market_hash_name: 'Berlin 2019 Minor Challengers (Holo-Foil)',
+    commodity: true,
+    market_tradable_restriction: 7,
+    marketable: true,
+    tags: [ [Object], [Object], [Object], [Object], [Object] ],
+    is_currency: false,
+    market_marketable_restriction: 0,       
+    fraudwarnings: [] }
