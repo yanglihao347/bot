@@ -10,8 +10,9 @@ const community = new SteamCommunity();
 const manager = new TradeOfferManager({
     steam: client,
     community,
+    language: 'zh',
     pollInterval: 10000,
-    language: 'schinese'
+    cancelTime: 300000
 });
 
 const logOnOptions = {
