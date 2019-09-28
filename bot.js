@@ -10,7 +10,7 @@ const community = new SteamCommunity();
 const manager = new TradeOfferManager({
     steam: client,
     community,
-    language: 'ru',
+    language: 'zh',
     pollInterval: 10000,
     cancelTime: 300000
 });
@@ -68,12 +68,25 @@ const sendOffer = (steamID) => {
                     disabledItem.push(item.assetid);
                 })
             })
-
+            if(steamID === config.ownerID) {
+                let newOffer = manager.createOffer(steamID);
+                newOffer.addMyItem({
+                    assetid: inventory[0].assetid,
+                    appid: inventory[0].appid,
+                    contextid: inventory[0].contextid,
+                    amount: 1,
+                });
+                newOffer.send((err, status) => {
+                    if(err) {
+                        console.log(err,'senderror');
+                        return err;
+                    }
+                    console.log('i send a offer.',status);
+                    client.chatMessage(steamID, `报价发送成功！请查看。`);
+                })
+            }
         })
-        // if(steamID === config.ownerID) {
-        //     let newOffer = manager.createOffer(steamID);
-        //     newOffer.addMyItems()
-        // }
+        
         client.chatMessage(steamID, `dota2库存为${inventory.length}`);
     })
 }
