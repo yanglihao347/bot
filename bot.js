@@ -51,7 +51,7 @@ const checkCSGOInventory = (steamID) => {
 
 const sendOffer = (steamID) => {
     client.chatMessage(steamID, `正在发起交易报价中，稍后请在steam客户端查看并接受报价。`);
-    manager.getInventoryContents(570, 2, true, (err, inventory) => {
+    manager.getInventoryContents(730, 2, true, (err, inventory) => {
         if(err) {
             console.log(err);
             return err;
