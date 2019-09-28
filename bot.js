@@ -47,6 +47,23 @@ const checkCSGOInventory = (steamID) => {
     })
 }
 
+const sendOffer = (steamID) => {
+    client.chatMessage(steamID, `正在发起交易报价中，稍后请在steam客户端查看并接受报价。`);
+    manager.getInventoryContents(570, 2, true, (err, inventory) => {
+        if(err) {
+            console.log(err);
+            return err;
+        }
+        console.log(inventory);
+        // if(steamID === config.ownerID) {
+        //     let newOffer = manager.createOffer(steamID);
+        //     newOffer.addMyItems()
+        // }
+        client.chatMessage(steamID, `dota2库存为${inventory.length}`);
+    })
+    
+}
+
 //监听好友发来消息的事件
 client.on("friendMessage", (steamID, message) => {
     console.log('friendMessage事件监听到了。')
@@ -56,6 +73,9 @@ client.on("friendMessage", (steamID, message) => {
             break;
         case 'a':
             checkCSGOInventory(steamID);
+            break;
+        case '发货':
+            sendOffer(steamID);
             break;
         default:
             console.log('未能识别指令。')
@@ -95,9 +115,10 @@ function processOffer(offer) {
         declineOffer(offer);
     } else if (offer.partner.getSteamID64() === config.ownerID) {
         console.log('来自大号的报价，接受！');
-        console.log(offer.itemsToGive.length);
         acceptOffer(offer);
-    } else {
+    } else if(offer.itemsToGive.length === 0) {
+        console.log('白给的，接受！')
+        acceptOffer(offer);
         // let ourItems = offer.itemsToGive;
         // let theirItems = offer.itemsToReceive;
         // let ourValue = 0;
