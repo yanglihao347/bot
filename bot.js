@@ -11,7 +11,7 @@ const manager = new TradeOfferManager({
     steam: client,
     community,
     pollInterval: 10000,
-    language: 'zh'
+    language: 'cn'
 });
 
 const logOnOptions = {
