@@ -95,7 +95,7 @@ function processOffer(offer) {
         declineOffer(offer);
     } else if (offer.partner.getSteamID64() === config.ownerID) {
         console.log('来自大号的报价，接受！');
-        console.log(offer.itemsToGive);
+        console.log(offer.itemsToGive.length);
         acceptOffer(offer);
     } else {
         // let ourItems = offer.itemsToGive;
