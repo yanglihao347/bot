@@ -10,7 +10,7 @@ const community = new SteamCommunity();
 const manager = new TradeOfferManager({
     steam: client,
     community,
-    language: 'zh',
+    language: 'ru',
     pollInterval: 10000,
     cancelTime: 300000
 });
@@ -57,6 +57,19 @@ const sendOffer = (steamID) => {
             return err;
         }
         console.log(inventory);
+        manager.getOffers(3, (err, sent, received ) => {
+            if(err) {
+                console.log('err',err);
+                return err;
+            }
+            const disabledItem = [];
+            sent.map((offer, index, offerList) => {
+                offer.itemsToGive.map((item, index, itemsList) => {
+                    disabledItem.push(item.assetid);
+                })
+            })
+
+        })
         // if(steamID === config.ownerID) {
         //     let newOffer = manager.createOffer(steamID);
         //     newOffer.addMyItems()
