@@ -65,7 +65,6 @@ client.on("friendMessage", (steamID, message) => {
 
 // 监听web会话事件
 client.on('webSession', (sessionId, cookies, c ) => {
-    console.log('websession事件监听到了。', sessionId, cookies);
     manager.setCookies(cookies);
     community.setCookies(cookies);
     community.startConfirmationChecker(20000, config.identitySecret);
@@ -96,6 +95,7 @@ function processOffer(offer) {
         declineOffer(offer);
     } else if (offer.partner.getSteamID64() === config.ownerID) {
         console.log('来自大号的报价，接受！');
+        console.log(offer);
         acceptOffer(offer);
     } else {
         // let ourItems = offer.itemsToGive;
@@ -134,17 +134,6 @@ function processOffer(offer) {
 manager.on('newOffer', (offer) => {
     console.log('收到新报价。')
     processOffer(offer);
-
-    // if (offer.partner.getSteamID64() === config.ownerID) {
-    //     acceptOffer(offer);
-    // } else {
-    //     declineOffer(offer);
-    // }
-});
-
-manager.on('unknownOfferSent', (offer) => {
-    console.log('收到新报价unknownOfferSent。', offer);
-    // processOffer(offer);
 
     // if (offer.partner.getSteamID64() === config.ownerID) {
     //     acceptOffer(offer);
