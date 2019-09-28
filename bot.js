@@ -56,12 +56,14 @@ const sendOffer = (steamID) => {
             console.log(err);
             return err;
         }
-        console.log(inventory);
+        client.chatMessage(steamID, `dota2库存为${inventory.length}`);
         manager.getOffers(3, (err, sent, received ) => {
             if(err) {
                 console.log('err',err);
                 return err;
             }
+            client.chatMessage(steamID, `获取已有offer信息中。`);
+            console.log(`获取已有offer信息中。`);
             const disabledItem = [];
             sent.map((offer, index, offerList) => {
                 offer.itemsToGive.map((item, index, itemsList) => {
@@ -70,6 +72,8 @@ const sendOffer = (steamID) => {
             })
             if(steamID === config.ownerID) {
                 let newOffer = manager.createOffer(steamID);
+                client.chatMessage(steamID, `创建报价中。`);
+                console.log(`创建报价中。`);
                 newOffer.addMyItem({
                     assetid: inventory[0].assetid,
                     appid: inventory[0].appid,
@@ -87,7 +91,7 @@ const sendOffer = (steamID) => {
             }
         })
         
-        client.chatMessage(steamID, `dota2库存为${inventory.length}`);
+        
     })
 }
 
