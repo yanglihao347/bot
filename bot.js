@@ -51,7 +51,7 @@ const checkCSGOInventory = (steamID) => {
 
 const sendOffer = (steamID) => {
     client.chatMessage(steamID, `正在发起交易报价中，稍后请在steam客户端查看并接受报价。`);
-    manager.getInventoryContents(730, 2, true, (err, inventory) => {
+    manager.getInventoryContents(570, 2, true, (err, inventory) => {
         if(err) {
             console.log(err);
             return err;
@@ -63,7 +63,11 @@ const sendOffer = (steamID) => {
         // }
         client.chatMessage(steamID, `dota2库存为${inventory.length}`);
     })
-    
+}
+
+const test = (steamID) => {
+    console.log('manager',manager);
+    client.chatMessage(steamID, `测试完成`);
 }
 
 //监听好友发来消息的事件
@@ -78,6 +82,9 @@ client.on("friendMessage", (steamID, message) => {
             break;
         case '发货':
             sendOffer(steamID);
+            break;
+        case 'test':
+            test(steamID);
             break;
         default:
             console.log('未能识别指令。')
