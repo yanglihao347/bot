@@ -71,7 +71,7 @@ const sendOffer = (steamID) => {
                 })
             })
             console.log(steamID, config.ownerID);
-            if(steamID === config.ownerID) {
+            if(steamID.getSteamID64() === config.ownerID) {
                 client.chatMessage(steamID, `创建报价中。`);
                 console.log(`创建报价中。`);
                 let newOffer = manager.createOffer(steamID);
