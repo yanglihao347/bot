@@ -75,6 +75,7 @@ const sendOffer = (steamID) => {
                 client.chatMessage(steamID, `创建报价中。`);
                 console.log(`创建报价中。`);
                 let newOffer = manager.createOffer(steamID);
+                console.log(inventory[0]);
                 newOffer.addMyItem({
                     assetid: inventory[0].assetid,
                     appid: inventory[0].appid,
