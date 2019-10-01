@@ -10,7 +10,7 @@ const community = new SteamCommunity();
 const manager = new TradeOfferManager({
     steam: client,
     community,
-    language: 'zh',
+    language: 'szh',
     pollInterval: 10000,
     cancelTime: 300000
 });
@@ -56,7 +56,7 @@ const sendOffer = (steamID) => {
             console.log(err);
             return err;
         }
-        client.chatMessage(steamID, `dota2库存为${inventory.length}`);
+        console.log(`dota2库存为${inventory.length}`);
         manager.getOffers(3, (err, sent, received ) => {
             if(err) {
                 console.log('err',err);
